@@ -2,14 +2,6 @@
 
 Escenarios de prueba en lenguaje Gherkin para los tres flujos del producto: inicio de sesión, consulta de saldo y envío de dinero.
 
-## Supuestos (a confirmar con el Product Owner)
-
-- El inicio de sesión se hace con número de celular y contraseña.
-- La cuenta se bloquea temporalmente tras 3 intentos fallidos.
-- Los montos son en pesos enteros (sin decimales).
-- Los límites de monto ($5.000 y $2.000.000) son inclusivos.
-- El celular tiene 10 dígitos.
-
 ## Contenido
 
 1. [Feature 1: Iniciar sesión](#feature-1-iniciar-sesión)
