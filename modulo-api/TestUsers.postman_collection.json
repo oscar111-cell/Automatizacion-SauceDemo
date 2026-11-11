@@ -1,0 +1,231 @@
+{
+  "info": {
+    "_postman_id": "026e340d-8aff-4024-aa06-25ae0c5a2bc7",
+    "name": "Users",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21208750"
+  },
+  "item": [
+    {
+      "name": "Create User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Content-Type",
+              "",
+              "pm.test('Content-Type es application/json', () => { const ct = (pm.response.headers.get('Content-Type')||'').toLowerCase(); pm.expect(ct).to.include('application/json'); });",
+              "",
+              "// Status",
+              "",
+              "pm.test('Status 201 Created', () => pm.response.to.have.status(201));",
+              "",
+              "// Body JSON",
+              "",
+              "pm.test('Body es JSON válido', () => { pm.expect(() => pm.response.json()).to.not.throw(); });",
+              "",
+              "const json = pm.response.json();",
+              "",
+              "// Campos y tipos",
+              "",
+              "pm.test('Campos obligatorios y tipos', () => { pm.expect(json).to.have.property('id'); pm.expect(json).to.have.property('createdAt'); pm.expect(json.id).to.be.a('string'); pm.expect(json.createdAt).to.be.a('string'); if(json.name!==undefined) pm.expect(json.name).to.be.a('string'); if(json.job!==undefined) pm.expect(json.job).to.be.a('string'); });",
+              "",
+              "// Guardar variables y alinear id del mock",
+              "",
+              "pm.collectionVariables.set('userId','123');",
+              "",
+              "const req = pm.request.body ? JSON.parse(pm.request.body.raw) : {};",
+              "",
+              "pm.collectionVariables.set('userName', req.name || pm.collectionVariables.get('userName'));",
+              "",
+              "pm.collectionVariables.set('userJob', req.job || pm.collectionVariables.get('userJob'));",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{userName}}\",\n  \"job\": \"{{userJob}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "POST /users 201",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"{{userName}}\",\n  \"job\": \"{{userJob}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"name\": \"{{userName}}\",\n  \"job\": \"{{userJob}}\",\n  \"id\": \"123\",\n  \"createdAt\": \"2025-11-26T12:00:00Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get User by Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Content-Type es application/json', () => { const ct=(pm.response.headers.get('Content-Type')||'').toLowerCase(); pm.expect(ct).to.include('application/json'); });",
+              "",
+              "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+              "",
+              "pm.test('Body es JSON válido', () => { pm.expect(() => pm.response.json()).to.not.throw(); });",
+              "",
+              "const json = pm.response.json();",
+              "",
+              "pm.test('Contrato básico y tipos', () => { pm.expect(json).to.have.property('data'); const d=json.data; ['id','name','job'].forEach(k=>pm.expect(d).to.have.property(k)); pm.expect(d.id).to.be.a('string'); pm.expect(d.name).to.be.a('string'); pm.expect(d.job).to.be.a('string'); });",
+              "",
+              "pm.test('Valores coinciden con lo enviado', () => { const d=json.data;pm.expect(d.name).to.eql(pm.collectionVariables.get('userName')); pm.expect(d.job).to.eql(pm.collectionVariables.get('userJob')); });",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{userId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "GET /users/:id 200",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"data\": {\n    \"id\": \"{{userId}}\",\n    \"name\": \"{{userName}}\",\n    \"job\": \"{{userJob}}\"\n  }\n}"
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    },
+    {
+      "key": "userName",
+      "value": "Test User"
+    },
+    {
+      "key": "userJob",
+      "value": "Automation Engineer"
+    },
+    {
+      "key": "userId",
+      "value": ""
+    }
+  ]
+}
