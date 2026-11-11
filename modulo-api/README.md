@@ -26,19 +26,19 @@ Cumplir el enunciado: POST /users (201) y luego GET /users/{id} (200) devolviend
 ## Evidencias
 - Capturas: POST 201, GET 200, Runner con tests en verde.
 
-CREATED USER
+**CREATED USER**
 
 ![POST 201 – Create User](./Created-User.png)
 
-TESTS CREATED USER
+**TEST CREATED USER**
 
 ![Tests – Create User](./Test-Create-User-1.png)
 ![Tests – Create User](./Test-Create-User-2.png)
 
-GET USER BY ID
+**GET USER BY ID**
 
 ![GET 200 – Get User by Id](./Get-User-ByID.png)
 
-TESTS GET USER
+**TEST GET USER**
 
 ![Tests – Get User](./Test-Get-User.png)
